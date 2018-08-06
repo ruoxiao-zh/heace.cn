@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HotelRoomType extends Model
+class Link extends Model
 {
-    protected $table = 'hotel_room_types';
+    protected $table = 'links';
 
     protected $fillable = [
-        'type'
+        'url',
+        'name',
+        'order'
     ];
 }

@@ -16,20 +16,16 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
     'namespace'  => 'App\Http\Controllers\Api',
-    'middleware' => ['serializer:array', 'bindings']
+    'middleware' => [
+        'serializer:array',
+        'bindings'
+    ]
 ], function ($api) {
     $api->group([
         'middleware' => 'api.throttle',
-        'limit'      => config('api.rate_limits.sign.limit'),
-        'expires'    => config('api.rate_limits.sign.expires'),
+        'limit'      => config('api.rate_limits.access.limit'),
+        'expires'    => config('api.rate_limits.access.expires'),
     ], function ($api) {
-        // 短信验证码
-        $api->post('verificationCodes', 'VerificationCodesController@store')
-            ->name('api.verificationCodes.store');
-        // 用户注册
-        $api->post('users', 'UsersController@store')
-            ->name('api.users.store');
-
         /**
          * 文章分类管理
          */
@@ -73,9 +69,6 @@ $api->version('v1', [
         // 置顶与取消置顶
         $api->get('articles/change-top/{article}', 'ArticlesController@changeTop')
             ->name('api.articles.change.top');
-        // 推荐首页与取消推荐首页
-        $api->get('articles/change-index/{article}', 'ArticlesController@changeIndex')
-            ->name('api.articles.change.index');
 
         /**
          * 轮播图管理
@@ -97,6 +90,44 @@ $api->version('v1', [
             ->name('api.slide-shows.show');
 
         /**
+         * 友情链接管理
+         */
+        // 添加
+        $api->post('links', 'LinksController@store')
+            ->name('api.links.store');
+        // 更新
+        $api->patch('links/{link}', 'LinksController@update')
+            ->name('api.links.update');
+        // 删除
+        $api->delete('links/{link}', 'LinksController@destroy')
+            ->name('api.links.destroy');
+        // 列表
+        $api->get('links', 'LinksController@index')
+            ->name('api.links.index');
+        // 详情
+        $api->get('links/{link}', 'LinksController@show')
+            ->name('api.links.show');
+
+        /**
+         * 网站配置管理
+         */
+        // 添加
+        $api->post('config', 'ConfigController@store')
+            ->name('api.config.store');
+        // 更新
+        $api->patch('config/{config}', 'ConfigController@update')
+            ->name('api.config.update');
+        // 删除
+        $api->delete('config/{config}', 'ConfigController@destroy')
+            ->name('api.config.destroy');
+        // 列表
+        $api->get('config', 'ConfigController@index')
+            ->name('api.config.index');
+        // 详情
+        $api->get('config/{config}', 'ConfigController@show')
+            ->name('api.config.show');
+
+        /**
          * 用户相关
          */
         // 图片验证码
@@ -111,6 +142,10 @@ $api->version('v1', [
         // 删除token
         $api->delete('authorizations/current', 'AuthorizationsController@destroy')
             ->name('api.authorizations.destroy');
+
+        // 用户列表
+        $api->get('users', 'UsersController@index')
+                ->name('api.user.index');
 
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function ($api) {

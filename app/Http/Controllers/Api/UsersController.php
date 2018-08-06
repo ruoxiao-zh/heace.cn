@@ -62,4 +62,12 @@ class UsersController extends Controller
             ])
             ->setStatusCode(200);
     }
+
+    public function index(Request $request, User $user)
+    {
+        $query = $user->query();
+        $users = $query->orderBy('created_at', 'desc')->paginate(15);
+
+        return $this->response->paginator($users, new UserTransformer());
+    }
 }

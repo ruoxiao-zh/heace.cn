@@ -44,10 +44,17 @@ class ArticlesController extends Controller
 
     public function index(Request $request, Article $article)
     {
-        $query = $article->query();
-        $articles = $query->orderBy('is_top', 'desc')->orderBy('created_at', 'desc')->paginate(15);
+        if ($request->paginate == 'true') {
+            $query = $article->query();
+            $articles = $query->orderBy('is_top', 'desc')->orderBy('created_at', 'desc')->paginate(15);
 
-        return $this->response->paginator($articles, new ArticleTransformer());
+            return $this->response->paginator($articles, new ArticleTransformer());
+        } else {
+            $query = $article->query();
+            $articles = $query->orderBy('is_top', 'desc')->orderBy('created_at', 'desc')->get();
+
+            return $this->response->collection($articles, new ArticleTransformer());
+        }
     }
 
     public function show(Article $article)
@@ -57,7 +64,6 @@ class ArticlesController extends Controller
 
     public function categoryArticles(Request $request, Article $article)
     {
-        dd(123123123121233);
         $query = $article->query();
         $articles = $query->where('cate', $request->cate)->orderBy('is_top', 'desc')->orderBy('created_at', 'desc')->paginate(15);
 
@@ -70,18 +76,6 @@ class ArticlesController extends Controller
             $article->is_top = 0;
         } else {
             $article->is_top = 1;
-        }
-        $article->save();
-
-        return $this->response->item($article, new ArticleTransformer());
-    }
-
-    public function changeIndex(Article $article)
-    {
-        if ($article->is_index) {
-            $article->is_index = 0;
-        } else {
-            $article->is_index = 1;
         }
         $article->save();
 

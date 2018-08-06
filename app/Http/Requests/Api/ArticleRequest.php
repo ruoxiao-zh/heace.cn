@@ -8,12 +8,25 @@ class ArticleRequest extends BaseRequest
 {
     public function rules()
     {
-        return [
-            'cate' => 'required|string',
-            'title'   => 'required|string|max:255|unique:articles',
-            // 'image'   => 'sometime|string|max:255',
-            'content' => 'required',
-        ];
+        switch ($this->method()) {
+            case 'POST':
+                return [
+                    'cate' => 'required|string',
+                    'title'   => 'required|string|max:255|unique:articles',
+                    // 'image'   => 'sometime|string|max:255',
+                    'content' => 'required',
+                ];
+                break;
+            case 'PATCH':
+                return [
+                    'cate' => 'required|string',
+                    'title'   => 'required|string|max:255',
+                    // 'image'   => 'sometime|string|max:255',
+                    'content' => 'required',
+                ];
+                break;
+        }
+
     }
 
     public function messages()

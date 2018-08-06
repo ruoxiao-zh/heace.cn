@@ -46,7 +46,7 @@ class SlideShowsController extends Controller
     public function index(Request $request, SlideShow $slideShow)
     {
         $query = $slideShow->query();
-        $slideShows = $query->paginate(15);
+        $slideShows = $query->orderBy('order')->orderBy('created_at', 'desc')->paginate(15);
 
         return $this->response->paginator($slideShows, new SlideShowTransformer());
     }

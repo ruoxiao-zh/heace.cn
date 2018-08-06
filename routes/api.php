@@ -90,6 +90,25 @@ $api->version('v1', [
             ->name('api.slide-shows.show');
 
         /**
+         * 首页卡片管理
+         */
+        // 添加
+        $api->post('cards', 'CardsController@store')
+            ->name('api.cards.store');
+        // 更新
+        $api->patch('cards/{card}', 'CardsController@update')
+            ->name('api.cards.update');
+        // 删除
+        $api->delete('cards/{card}', 'CardsController@destroy')
+            ->name('api.cards.destroy');
+        // 列表
+        $api->get('cards', 'CardsController@index')
+            ->name('api.cards.index');
+        // 详情
+        $api->get('cards/{card}', 'CardsController@show')
+            ->name('api.cards.show');
+
+        /**
          * 友情链接管理
          */
         // 添加
@@ -145,7 +164,7 @@ $api->version('v1', [
 
         // 用户列表
         $api->get('users', 'UsersController@index')
-                ->name('api.user.index');
+            ->name('api.user.index');
 
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function ($api) {

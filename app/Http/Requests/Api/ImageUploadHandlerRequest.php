@@ -13,7 +13,7 @@ class ImageUploadHandlerRequest extends BaseRequest
             'images'   => 'mimes:jpg,jpeg,bmp,png,gif',
             'filename' => [
                 'required',
-                Rule::in(['articles', 'slideshows', 'config']),
+                Rule::in(['articles', 'slideshows', 'config', 'card']),
             ],
         ];
     }
@@ -24,7 +24,7 @@ class ImageUploadHandlerRequest extends BaseRequest
             'images.mimes'      => '图片必须是 jpg, jpeg, bmp, png, gif 格式',
             // 'images.dimensions' => '图片的清晰度不够，宽和高需要 200px 以上',
             'filename.required' => '图片上传文件目录不能为空',
-            'filename.in'       => '图片上传文件目录只能是 [articles, slideshows, config] 数组中的任一值',
+            'filename.in'       => '图片上传文件目录只能是 [articles, slideshows, config, card] 数组中的任一值',
         ];
     }
 }

@@ -88,6 +88,6 @@ class ImageUploadHandlerController extends Controller
      */
     public function upload(ImageUploadHandlerRequest $request)
     {
-        return $this->save($request->images, $request->filename, 1024);
+        return $this->save($request->images, $request->filename, 1663);
     }
 }

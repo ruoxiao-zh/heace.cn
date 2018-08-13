@@ -15,10 +15,11 @@ class ArticleTransformer extends TransformerAbstract
             'title'      => $article->title,
             'image'      => $article->image,
             'content'    => $article->content,
+            'source'     => $article->source,
             'is_top'     => (boolean)$article->is_top,
             'is_index'   => (boolean)$article->is_index,
-            'created_at' => $article->created_at->toDateTimeString(),
-            'updated_at' => $article->updated_at->toDateTimeString(),
+            'created_at' => $article->created_at,
+            'updated_at' => $article->updated_at,
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Requests\Api\ArticleRequest;
 use App\Models\Article;
 use App\Transformers\ArticleTransformer;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 /**
  * 文章管理
@@ -17,7 +18,8 @@ class ArticlesController extends Controller
 {
     public function store(ArticleRequest $request, Article $article)
     {
-        $article->fill($request->all());
+        $data = array_merge($request->all(), ['updated_at' => Carbon::now()]);
+        $article->fill($data);
         $article->save();
 
         return $this->response->item($article, new ArticleTransformer())
@@ -28,7 +30,8 @@ class ArticlesController extends Controller
     {
         // todo...
         // $this->authorize('update', $topic);
-        $article->update($request->all());
+        $data = array_merge($request->all(), ['updated_at' => Carbon::now()]);
+        $article->update($data);
 
         return $this->response->item($article, new ArticleTransformer());
     }
@@ -46,7 +49,7 @@ class ArticlesController extends Controller
     {
         if ($request->paginate == 'true') {
             $query = $article->query();
-            $articles = $query->orderBy('is_top', 'desc')->orderBy('created_at', 'desc')->paginate(15);
+            $articles = $query->orderBy('is_top', 'desc')->orderBy('created_at', 'desc')->paginate(6);
 
             return $this->response->paginator($articles, new ArticleTransformer());
         } else {
@@ -65,7 +68,7 @@ class ArticlesController extends Controller
     public function categoryArticles(Request $request, Article $article)
     {
         $query = $article->query();
-        $articles = $query->where('cate', $request->cate)->orderBy('is_top', 'desc')->orderBy('created_at', 'desc')->paginate(15);
+        $articles = $query->where('cate', $request->cate)->orderBy('is_top', 'desc')->orderBy('created_at', 'desc')->paginate(6);
 
         return $this->response->paginator($articles, new ArticleTransformer());
     }

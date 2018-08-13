@@ -14,6 +14,11 @@ class Article extends Model
         'image',
         'content',
         'is_top',
-        'is_index'
+        'is_index',
+        'source',
+        'created_at',
+        'updated_at',
     ];
+
+    public $timestamps = false;
 }

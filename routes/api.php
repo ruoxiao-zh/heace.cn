@@ -44,6 +44,9 @@ $api->version('v1', [
         // 详情
         $api->get('article-categories/{articleCategory}', 'ArticleCategoriesController@show')
             ->name('api.article-categories.show');
+        // 获取子分类
+        $api->get('article-categories/{articleCategory}/subcategories', 'ArticleCategoriesController@subcategories')
+            ->name('api.article-categories.subcategories');
 
         /**
          * 文章管理
